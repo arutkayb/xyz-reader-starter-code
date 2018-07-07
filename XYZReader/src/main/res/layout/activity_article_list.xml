@@ -6,11 +6,11 @@
     android:orientation="vertical">
 
     <!-- TODO: use dimens for height here-->
-    <FrameLayout
+    <android.support.design.widget.AppBarLayout
         android:id="@+id/toolbar_container"
         android:layout_width="match_parent"
-        android:layout_height="112dp"
-        android:background="?colorPrimary">
+        android:layout_height="wrap_content"
+        android:background="@color/theme_primary">
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
@@ -18,9 +18,7 @@
             android:layout_width="match_parent"
             android:layout_height="?actionBarSize"
             android:layout_gravity="bottom"
-            android:elevation="@dimen/common_elevation_app_bar"
-            android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+            android:elevation="@dimen/common_elevation_app_bar">
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -29,7 +27,7 @@
                 android:contentDescription="@string/app_name" />
 
         </android.support.v7.widget.Toolbar>
-    </FrameLayout>
+    </android.support.design.widget.AppBarLayout>
 
 
     <android.support.design.widget.CoordinatorLayout
