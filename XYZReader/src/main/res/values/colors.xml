@@ -16,9 +16,10 @@
 -->
 
 <resources>
-    <color name="theme_primary_dark">#66545e</color>
-    <color name="theme_primary">#86717d</color>
-    <color name="theme_primary_darker_light">#a39193</color>
-    <color name="theme_primary_light">#eae5e6</color>
-    <color name="theme_accent">#ed823b</color>
+    <color name="theme_primary_darker_dark">#640000</color>
+    <color name="theme_primary_dark">#a30000</color>
+    <color name="theme_primary">#dd2c00</color>
+    <color name="theme_primary_darker_light">#ff6434</color>
+    <color name="theme_primary_light">#ffefea</color>
+    <color name="theme_accent">#00c853</color>
 </resources>

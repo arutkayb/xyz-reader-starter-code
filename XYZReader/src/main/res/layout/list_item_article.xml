@@ -26,26 +26,24 @@
 
         <TextView
             android:id="@+id/article_title"
-            style="@style/CommonText"
+            style="@style/CommonTextWhiteLarge"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingLeft="16dp"
             android:paddingTop="16dp"
             android:paddingRight="16dp"
             android:paddingBottom="4dp"
-            android:ellipsize="end"
-            android:maxLines="1" />
+            android:ellipsize="end" />
 
         <TextView
             android:id="@+id/article_subtitle"
-            style="@style/CommonText"
+            style="@style/CommonTextWhite"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
             android:paddingBottom="16dp"
-            android:maxLines="1"
-            android:ellipsize="end" />
+            android:ellipsize="end"/>
     </LinearLayout>
 
 </android.support.v7.widget.CardView>
