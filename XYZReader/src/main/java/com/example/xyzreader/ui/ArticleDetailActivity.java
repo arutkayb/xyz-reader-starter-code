@@ -1,6 +1,8 @@
 package com.example.xyzreader.ui;
 
 import android.content.Intent;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.support.v4.app.Fragment;
 import android.database.Cursor;
 import android.graphics.drawable.ColorDrawable;
@@ -56,6 +58,11 @@ public class ArticleDetailActivity extends AppCompatActivity
 
             getSupportActionBar().setDisplayShowHomeEnabled(true);
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+            final Drawable upArrow = getResources().getDrawable(R.drawable.ic_arrow_back);
+            upArrow.setColorFilter(getResources().getColor(R.color.theme_primary_light), PorterDuff.Mode.SRC_ATOP);
+            getSupportActionBar().setHomeAsUpIndicator(upArrow);
+
         }catch (NullPointerException ex){
             Log.e(getClass().getName(), "No toolbar is set");
         }
