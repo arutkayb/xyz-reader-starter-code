@@ -8,6 +8,7 @@
     <dimen name="fab_press_translation_z">6dp</dimen>
 
     <dimen name="common_margin_fab">16dp</dimen>
+    <dimen name="margin_reader">28dp</dimen>
 
     <dimen name="common_elevation_fab">6dp</dimen>
     <dimen name="common_elevation_navigation_drawer">16dp</dimen>

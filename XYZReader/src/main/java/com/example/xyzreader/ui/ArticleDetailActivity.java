@@ -80,19 +80,6 @@ public class ArticleDetailActivity extends AppCompatActivity
                 mSelectedItemId = mStartId;
             }
         }
-
-        //TODO: set share contents
-        findViewById(R.id.share_fab).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent sendIntent = new Intent();
-                sendIntent.setAction(Intent.ACTION_SEND);
-                sendIntent.putExtra(Intent.EXTRA_TEXT, "SomeText");
-                sendIntent.setType("text/plain");
-                startActivity(sendIntent);
-                //startActivity(Intent.createChooser(sendIntent, getResources().getText(R.string.action_share)));
-            }
-        });
     }
 
     @Override
