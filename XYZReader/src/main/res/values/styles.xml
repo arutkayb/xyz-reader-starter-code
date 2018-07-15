@@ -27,16 +27,27 @@
 
     <style name="CommonTextWhite" parent="TextAppearance.AppCompat">
         <item name="android:textColor">@android:color/white</item>
-        <item name="android:background">@color/theme_primary_darker_dark</item>
         <item name="android:textSize">@dimen/common_text_size</item>
     </style>
 
     <style name="CommonTextWhiteLarge" parent="TextAppearance.AppCompat">
         <item name="android:textColor">@android:color/white</item>
-        <item name="android:background">@color/theme_primary_darker_dark</item>
-        <item name="android:textSize">@dimen/common_text_size_big</item>
+        <item name="android:textSize">@dimen/common_text_size_large</item>
         <item name="android:textStyle">bold</item>
     </style>
+
+    <style name="CommonHeaderWhite" parent="TextAppearance.AppCompat">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">@dimen/common_text_size_header</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="CommonTextDarkLarge" parent="TextAppearance.AppCompat">
+        <item name="android:textColor">@android:color/black</item>
+        <item name="android:textSize">@dimen/common_text_size_large</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
 
 
 </resources>

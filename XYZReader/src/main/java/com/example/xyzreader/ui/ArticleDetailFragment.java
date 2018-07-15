@@ -1,8 +1,8 @@
 package com.example.xyzreader.ui;
 
-import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.PorterDuff;
 import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
@@ -15,10 +15,13 @@ import java.util.GregorianCalendar;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
-import android.support.v4.app.ShareCompat;
 import android.support.v4.content.Loader;
+import android.support.v7.graphics.Palette;
+import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.text.format.DateUtils;
 import android.text.method.LinkMovementMethod;
@@ -26,7 +29,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.load.DataSource;
@@ -52,9 +58,13 @@ public class ArticleDetailFragment extends Fragment implements
     private View mRootView;
     private int mMutedColor = 0xFF333333;
     private ColorDrawable mStatusBarColorDrawable;
+    CollapsingToolbarLayout collapsingToolbar;
 
     private int mTopInset;
     private ImageView mPhotoView;
+    TextView mTitleView;
+    LinearLayout mCollapsingTitleBarContainer;
+
     private boolean mIsCard = false;
     private int mStatusBarFullOpacityBottom;
 
@@ -113,12 +123,36 @@ public class ArticleDetailFragment extends Fragment implements
             Bundle savedInstanceState) {
         mRootView = inflater.inflate(R.layout.fragment_article_detail, container, false);
 
+        collapsingToolbar = (CollapsingToolbarLayout) mRootView.findViewById(R.id.collapsing_toolbar);
+
+        mCollapsingTitleBarContainer = mRootView.findViewById(R.id.meta_bar);
+
         mPhotoView = (ImageView) mRootView.findViewById(R.id.photo);
 
         mStatusBarColorDrawable = new ColorDrawable(0);
 
         bindViews();
+
+        setToolbar();
+
         return mRootView;
+    }
+
+    private void setToolbar(){
+        try {
+            Toolbar mToolbar = (Toolbar) mRootView.findViewById(R.id.toolbar);
+            getActivityCast().setSupportActionBar(mToolbar);
+
+            getActivityCast().getSupportActionBar().setDisplayShowHomeEnabled(true);
+            getActivityCast().getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+            final Drawable upArrow = getResources().getDrawable(R.drawable.ic_arrow_back);
+            upArrow.setColorFilter(getResources().getColor(R.color.theme_primary_light), PorterDuff.Mode.SRC_ATOP);
+            getActivityCast().getSupportActionBar().setHomeAsUpIndicator(upArrow);
+
+        }catch (NullPointerException ex){
+            Log.e(getClass().getName(), "No toolbar is set");
+        }
     }
 
     private Date parsePublishedDate() {
@@ -137,7 +171,7 @@ public class ArticleDetailFragment extends Fragment implements
             return;
         }
 
-        TextView titleView = (TextView) mRootView.findViewById(R.id.article_title);
+        mTitleView = (TextView) mRootView.findViewById(R.id.article_title);
         TextView bylineView = (TextView) mRootView.findViewById(R.id.article_byline);
         bylineView.setMovementMethod(new LinkMovementMethod());
         TextView bodyView = (TextView) mRootView.findViewById(R.id.article_body);
@@ -149,7 +183,28 @@ public class ArticleDetailFragment extends Fragment implements
             mRootView.setAlpha(0);
             mRootView.setVisibility(View.VISIBLE);
             mRootView.animate().alpha(1);
-            titleView.setText(mCursor.getString(ArticleLoader.Query.TITLE));
+
+            final String title = mCursor.getString(ArticleLoader.Query.TITLE);
+
+            AppBarLayout appBarLayout = mRootView.findViewById(R.id.app_bar_layout);
+            appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+                @Override
+                public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+
+                    if (Math.abs(verticalOffset)-appBarLayout.getTotalScrollRange() == 0)
+                    {
+                        //  Collapsed
+                        collapsingToolbar.setTitle(title);
+                    }
+                    else
+                    {
+                        //Expanded
+                        collapsingToolbar.setTitle("");
+                    }
+                }
+            });
+
+            mTitleView.setText(title);
             Date publishedDate = parsePublishedDate();
             if (!publishedDate.before(START_OF_EPOCH.getTime())) {
                 bylineView.setText(Html.fromHtml(
@@ -175,13 +230,48 @@ public class ArticleDetailFragment extends Fragment implements
 
             GlideApp.with(this)
                     .load(photo)
+                    .listener(new RequestListener<Drawable>() {
+                        @Override
+                        public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                            return false;
+                        }
+
+                        @Override
+                        public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                            refreshCollapsingLayout(((BitmapDrawable)resource).getBitmap());
+                            return false;
+                        }
+                    })
                     .into(mPhotoView);
+
         } else {
             mRootView.setVisibility(View.GONE);
-            titleView.setText("N/A");
+            mTitleView.setText("N/A");
             bylineView.setText("N/A" );
             bodyView.setText("N/A");
         }
+    }
+
+    private void refreshCollapsingLayout(Bitmap bitmap){
+        Palette.from(bitmap).generate(new Palette.PaletteAsyncListener() {
+            @Override
+            public void onGenerated(Palette palette) {
+                collapsingToolbar.setContentScrimColor(palette.getMutedColor(R.attr.colorPrimary));
+
+                try{
+                    Window window = getActivityCast().getWindow();
+                    window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+
+                    window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+
+                    window.setStatusBarColor(palette.getDarkMutedColor(R.attr.colorPrimary));
+                }catch (Exception ex){
+                    Log.e(TAG, "refreshCollapsingLayout status bar refresh error: " + ex.toString());
+                }
+
+                mCollapsingTitleBarContainer.setBackgroundColor(palette.getDarkMutedColor(R.attr.colorPrimary));
+            }
+        });
     }
 
     @Override

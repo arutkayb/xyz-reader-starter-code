@@ -26,6 +26,7 @@
         <TextView
             android:id="@+id/article_title"
             style="@style/CommonTextWhiteLarge"
+            android:background="@color/theme_primary_darker_dark"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingLeft="16dp"
@@ -37,6 +38,7 @@
         <TextView
             android:id="@+id/article_subtitle"
             style="@style/CommonTextWhite"
+            android:background="@color/theme_primary_darker_dark"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingLeft="16dp"

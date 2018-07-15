@@ -3,6 +3,7 @@ package com.example.xyzreader.ui;
 import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.app.Fragment;
 import android.database.Cursor;
 import android.graphics.drawable.ColorDrawable;
@@ -51,7 +52,7 @@ public class ArticleDetailActivity extends AppCompatActivity
         }
         setContentView(R.layout.activity_article_detail);
 
-        try {
+        /*try {
             Toolbar mToolbar = (Toolbar) findViewById(R.id.toolbar);
             mToolbar.setTitle("");
             setSupportActionBar(mToolbar);
@@ -65,7 +66,7 @@ public class ArticleDetailActivity extends AppCompatActivity
 
         }catch (NullPointerException ex){
             Log.e(getClass().getName(), "No toolbar is set");
-        }
+        }*/
 
         getSupportLoaderManager().initLoader(0, null, this);
 
