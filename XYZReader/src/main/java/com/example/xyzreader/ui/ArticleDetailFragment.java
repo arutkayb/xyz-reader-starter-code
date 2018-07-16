@@ -135,16 +135,14 @@ public class ArticleDetailFragment extends Fragment implements
 
     private void setToolbar(){
         try {
-            Toolbar mToolbar = mRootView.findViewById(R.id.toolbar);
-            getActivityCast().setSupportActionBar(mToolbar);
-
-            getActivityCast().getSupportActionBar().setDisplayShowHomeEnabled(true);
-            getActivityCast().getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-            final Drawable upArrow = getResources().getDrawable(R.drawable.ic_arrow_back);
-            upArrow.setColorFilter(getResources().getColor(R.color.theme_primary_light), PorterDuff.Mode.SRC_ATOP);
-            getActivityCast().getSupportActionBar().setHomeAsUpIndicator(upArrow);
-
+            Toolbar toolbar = mRootView.findViewById(R.id.toolbar);
+            toolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_24dp);
+            toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    getActivity().onBackPressed();
+                }
+            });
         }catch (NullPointerException ex){
             Log.e(getClass().getName(), "No toolbar is set");
         }
