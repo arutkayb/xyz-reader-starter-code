@@ -273,17 +273,6 @@ public class ArticleDetailFragment extends Fragment implements
             public void onGenerated(Palette palette) {
                 collapsingToolbar.setContentScrimColor(palette.getMutedColor(R.attr.colorPrimary));
 
-                try{
-                    Window window = getActivityCast().getWindow();
-                    window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-
-                    window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-
-                    window.setStatusBarColor(palette.getDarkMutedColor(R.attr.colorPrimary));
-                }catch (Exception ex){
-                    Log.e(TAG, "refreshCollapsingLayout status bar refresh error: " + ex.toString());
-                }
-
                 mCollapsingTitleBarContainer.setBackgroundColor(palette.getDarkMutedColor(R.attr.colorPrimary));
             }
         });

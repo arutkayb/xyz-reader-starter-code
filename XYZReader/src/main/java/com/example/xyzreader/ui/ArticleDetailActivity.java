@@ -22,7 +22,9 @@ import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.view.WindowInsets;
+import android.view.WindowManager;
 
 import com.example.xyzreader.R;
 import com.example.xyzreader.data.ArticleLoader;
