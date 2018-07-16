@@ -52,22 +52,6 @@ public class ArticleDetailActivity extends AppCompatActivity
         }
         setContentView(R.layout.activity_article_detail);
 
-        /*try {
-            Toolbar mToolbar = (Toolbar) findViewById(R.id.toolbar);
-            mToolbar.setTitle("");
-            setSupportActionBar(mToolbar);
-
-            getSupportActionBar().setDisplayShowHomeEnabled(true);
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-            final Drawable upArrow = getResources().getDrawable(R.drawable.ic_arrow_back);
-            upArrow.setColorFilter(getResources().getColor(R.color.theme_primary_light), PorterDuff.Mode.SRC_ATOP);
-            getSupportActionBar().setHomeAsUpIndicator(upArrow);
-
-        }catch (NullPointerException ex){
-            Log.e(getClass().getName(), "No toolbar is set");
-        }*/
-
         getSupportLoaderManager().initLoader(0, null, this);
 
         mPagerAdapter = new MyPagerAdapter(getSupportFragmentManager());

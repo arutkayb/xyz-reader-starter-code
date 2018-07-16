@@ -28,6 +28,7 @@ import android.text.format.DateUtils;
 import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -66,9 +67,6 @@ public class ArticleDetailFragment extends Fragment implements
     TextView mTitleView;
     LinearLayout mCollapsingTitleBarContainer;
 
-    private boolean mIsCard = false;
-    private int mStatusBarFullOpacityBottom;
-
     private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.sss");
     // Use default locale format
     private SimpleDateFormat outputFormat = new SimpleDateFormat();
@@ -93,15 +91,11 @@ public class ArticleDetailFragment extends Fragment implements
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
 
         if (getArguments().containsKey(ARG_ITEM_ID)) {
             mItemId = getArguments().getLong(ARG_ITEM_ID);
         }
-
-        mIsCard = getResources().getBoolean(R.bool.detail_is_card);
-        mStatusBarFullOpacityBottom = getResources().getDimensionPixelSize(
-                R.dimen.detail_card_top_margin);
-        setHasOptionsMenu(true);
     }
 
     public ArticleDetailActivity getActivityCast() {
@@ -141,7 +135,7 @@ public class ArticleDetailFragment extends Fragment implements
 
     private void setToolbar(){
         try {
-            Toolbar mToolbar = (Toolbar) mRootView.findViewById(R.id.toolbar);
+            Toolbar mToolbar = mRootView.findViewById(R.id.toolbar);
             getActivityCast().setSupportActionBar(mToolbar);
 
             getActivityCast().getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -154,6 +148,17 @@ public class ArticleDetailFragment extends Fragment implements
         }catch (NullPointerException ex){
             Log.e(getClass().getName(), "No toolbar is set");
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                getActivityCast().onBackPressed();
+                return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     private Date parsePublishedDate() {
